@@ -1,0 +1,21 @@
+$def with (form, num1, num2)
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Math!</title>
+		<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	</head>
+	<body>
+		<div class="container">
+			<h1>Let's do some math!</h1>
+			Add $:num1 + $:num2
+			<form name="main" method="post"> 
+				$if not form.valid: <p class="error">Try again:</p>
+				$:form.render()
+				<input type="submit" />    
+			</form>
+		</div>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="static/	js/bootstrap.min.js"></script>
+	</body>
+</html>
