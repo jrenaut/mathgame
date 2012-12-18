@@ -1,4 +1,4 @@
-$def with (form, num1, num2)
+$def with (form, num1, num2, type)
 <!DOCTYPE html>
 <html>
 	<head>
@@ -8,14 +8,24 @@ $def with (form, num1, num2)
 	<body>
 		<div class="container">
 			<h1>Let's do some math!</h1>
-			Add $:num1 + $:num2
-			<form name="main" method="post"> 
-				$if not form.valid: <p class="error">Try again:</p>
-				$:form.render()
-				<input type="submit" />    
-			</form>
+			<ul class="nav nav-tabs">
+				<li id="addition-holder" 
+				$if type=="add": 
+					class="active"
+				><a id="addition" href="#">Addition</a></li>
+				<li id="subtraction-holder"><a id="subtraction" href="#">Subtraction</a></li>
+				<li id="multiplication-holder"><a id="multiplication" href="#">Multiplication</a></li>				
+			</ul>
+			<div id="main-content">
+				<form class="form-inline" name="main" method="post">
+					<span>$:num1 <i class="icon-plus"></i> $:num2</span> 
+					$:form.render()
+					<button type="submit" class="btn">Submit</button>
+				</form>
+			</div>
 		</div>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
-		<script src="static/	js/bootstrap.min.js"></script>
+		<script src="static/js/bootstrap.min.js"></script>
+		<script src="static/js/math.js"></script>
 	</body>
 </html>
