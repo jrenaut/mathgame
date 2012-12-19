@@ -2,15 +2,19 @@ import web
 from web import form
 from random import randint
 
-render = web.template.render('templates/')
+web.config.debug = False
+
+
 
 urls = ('/', 'index',
 	'/subtract', 'subtraction',
 	'/add', 'addition',
 	'/multiply', 'multiplication',)
 
-
-#app = web.application(urls, globals())
+'''app = web.application(urls, globals())
+session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'count': 0})
+render = web.template.render('templates/', globals={'context': session})
+'''
 
 additionForm = form.Form( 
 	form.Textbox("thesum"),
@@ -46,12 +50,9 @@ class index:
 		form.get('num1').value = num1
 		num2 = randint(1,20)
 		form.get('num2').value = num2
-		return render.index(form, num1, num2, "add")
+		return render.index(render.addition(form, form.get('num1').value, form.get('num2').value, "add"))
 	def POST(self):
-		form = additionForm()
-		if not form.validates():
-			return render.index(form, form.get('num1').value, form.get('num2').value, "add")
-		return render.result() 
+		return "None"
 
 class subtraction:
 	def GET(self):
@@ -64,7 +65,8 @@ class subtraction:
 	def POST(self):
 		form = subtractionForm()
 		if not form.validates():
-			return render.index(form, form.get('num1').value, form.get('num2').value, "subtract")
+			return render.index(render.subtraction(form, form.get('num1').value, form.get('num2').value, "subtract"))
+		session.num_right += 1
 		return render.result() 
 		
 class addition:
@@ -78,7 +80,11 @@ class addition:
 	def POST(self):
 		form = additionForm()
 		if not form.validates():
-			return render.index(form, form.get('num1').value, form.get('num2').value, "add")
+			return render.index(render.addition(form, form.get('num1').value, form.get('num2').value, "add"))
+		if 'num_right' not in session:
+			session.num_right = 1
+		else:
+			session.num_right += 1
 		return render.result() 
 
 class multiplication:
@@ -92,9 +98,12 @@ class multiplication:
 	def POST(self):
 		form = multiplicationForm()
 		if not form.validates():
-			return render.index(form, form.get('num1').value, form.get('num2').value, "multiply")
+			return render.index(render.multiplication(form, form.get('num1').value, form.get('num2').value, "multiply"))
+		session.num_right += 1
 		return render.result() 
 
 if __name__ == "__main__":
 	app = web.application(urls, globals())
+	session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'num_right': 0})
+	render = web.template.render('templates/', globals={'context': session})	
 	app.run()

@@ -1,4 +1,4 @@
-$def with (form, num1, num2, type)
+$def with (form)
 <!DOCTYPE html>
 <html>
 	<head>
@@ -9,19 +9,12 @@ $def with (form, num1, num2, type)
 		<div class="container">
 			<h1>Let's do some math!</h1>
 			<ul class="nav nav-tabs">
-				<li id="addition-holder" 
-				$if type=="add": 
-					class="active"
-				><a id="addition" href="#">Addition</a></li>
+				<li id="addition-holder"><a id="addition" href="#">Addition</a></li>
 				<li id="subtraction-holder"><a id="subtraction" href="#">Subtraction</a></li>
 				<li id="multiplication-holder"><a id="multiplication" href="#">Multiplication</a></li>				
 			</ul>
 			<div id="main-content">
-				<form class="form-inline" name="main" method="post">
-					<span>$:num1 <i class="icon-plus"></i> $:num2</span> 
-					$:form.render()
-					<button type="submit" class="btn">Submit</button>
-				</form>
+				$:form
 			</div>
 		</div>
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
