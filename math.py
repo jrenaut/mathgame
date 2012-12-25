@@ -67,7 +67,9 @@ class subtraction:
 	def POST(self):
 		form = subtractionForm()
 		if not form.validates():
-			raise web.seeother('gameover')
+			score = session.num_right or 0
+			session.num_right = 0
+			return render.index(render.gameover(score))
 		if 'num_right' not in session:
 			session.num_right = 1
 		else:
@@ -85,7 +87,9 @@ class addition:
 	def POST(self):
 		form = additionForm()
 		if not form.validates():
-			raise web.seeother('gameover')
+			score = session.num_right or 0
+			session.num_right = 0
+			return render.index(render.gameover(score))
 		if 'num_right' not in session:
 			session.num_right = 1
 		else:
@@ -103,19 +107,15 @@ class multiplication:
 	def POST(self):
 		form = multiplicationForm()
 		if not form.validates():
-			raise web.seeother('gameover')
+			score = session.num_right or 0
+			session.num_right = 0
+			return render.index(render.gameover(score))
 		if 'num_right' not in session:
 			session.num_right = 1
 		else:
 			session.num_right += 1
 		return render.index(render.result()) 
 
-class gameover:
-	def GET(self):
-		score = session.num_right or 0
-		session.num_right = 0
-		return render.index(render.gameover(score))
-		
 if __name__ == "__main__":
     app.run() #this is normally only called from dispatch.cgi
 else:
