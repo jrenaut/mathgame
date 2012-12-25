@@ -67,7 +67,7 @@ class subtraction:
 	def POST(self):
 		form = subtractionForm()
 		if not form.validates():
-			raise web.seeother('/gameover')
+			raise web.seeother('gameover')
 		if 'num_right' not in session:
 			session.num_right = 1
 		else:
@@ -85,7 +85,7 @@ class addition:
 	def POST(self):
 		form = additionForm()
 		if not form.validates():
-			raise web.seeother('/gameover')
+			raise web.seeother('gameover')
 		if 'num_right' not in session:
 			session.num_right = 1
 		else:
@@ -103,7 +103,7 @@ class multiplication:
 	def POST(self):
 		form = multiplicationForm()
 		if not form.validates():
-			raise web.seeother('/gameover')
+			raise web.seeother('gameover')
 		if 'num_right' not in session:
 			session.num_right = 1
 		else:
