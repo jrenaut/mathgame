@@ -1,8 +1,7 @@
+#!/home/jrenaut/math.complainthub.com/math/bin/python
 import web
 from web import form
 from random import randint
-import shelve
-import bisect
 
 web.config.debug = False
 
@@ -15,10 +14,9 @@ urls = ('/', 'index',
 	'/gameover', 'gameover',
 	)
 
-'''app = web.application(urls, globals())
-session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'count': 0})
-render = web.template.render('templates/', globals={'context': session})
-'''
+app = web.application(urls, globals())
+session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'num_right': 0})
+render = web.template.render('templates/', globals={'context': session})	
 
 additionForm = form.Form( 
 	form.Textbox("thesum"),
@@ -119,7 +117,6 @@ class gameover:
 		return render.index(render.gameover(score))
 		
 if __name__ == "__main__":
-	app = web.application(urls, globals())
-	session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'num_right': 0})
-	render = web.template.render('templates/', globals={'context': session})	
-	app.run()
+    app.run() #this is normally only called from dispatch.cgi
+else:
+    web.wsgi.runwsgi = lambda func, addr=None: web.wsgi.runfcgi(func, addr)
